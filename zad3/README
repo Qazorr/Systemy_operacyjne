@@ -1,0 +1,139 @@
+=========================================================================
+Autor: Kacper Piątkowski                          
+=========================================================================
+
+Zawartosc:
+============
+
+Katalog zad3 zawiera 6 plikow napisane w jezyku C, plik Makefile
+oraz plik README.
+
+========================
+Opis programow:
+========================
+
+-------------------++++++WAZNA INFORMACJA++++++-------------------------
+Sygnal do programu wysylamy za pomocą komendy z powloki:
+    kill -numer_sygnalu PID_procesu
+------------------------------------------------------------------------
+
+============
+I PROGRAM
+============
+
+Program wywoluje sie z dwoma argumentami, z czego pierwszym argumentem
+jest sygnal, który chcemy obsłuzyć a drugi argument to opcja,
+której chcemy użyć.
+
+------------------------------------------------------------------------
+I opcja z ktora mozna wywolac program jest opcja ktora obsluguje
+sygnal wywolujac jego SIGNAL_DEFAULT
+------------------------------------------------------------------------
+II opcja powoduje zignorowanie sygnalu z ktorym zostal wywolany program,
+np. przy wywolaniu ./1.x 3 2, program bedzie ignorowal sygnaly wysylane
+poprzez komende kill -3 PID_procesu. 
+========================================================================
+UWAGA! Sygnalu 9 (SIGKILL) oraz 19 (SIGSTOP) nie da sie zignorowac.
+========================================================================
+------------------------------------------------------------------------
+III opcja powoduje przechwycenie sygnalu i wywolanie customowego
+handlera sygnalu, ktory w tym przypadku pokaze numer wywolanego 
+sygnalu oraz jego nazwe.
+Dzieje sie to tylko w przypadku gdy wyslemy sygnal do procesu
+taki sam jaki zostal wywolany przy wlaczaniu programu.
+========================================================================
+UWAGA! Sygnalu 9 (SIGKILL) oraz 19 (SIGSTOP) nie da sie przechwycic.
+========================================================================
+
+============
+II PROGRAM
+============
+
+Program wywoluje sie na takiej samej zasadzie jak I, trzeba podac
+2 argumenty, z czego 1 to sygnal a 2 to opcja.
+
+------------------------------------------------------------------------
+Opcje programu pozostaly niezmienione.
+------------------------------------------------------------------------
+Program rozni sie od pierwszego tym, ze proces macierzysty tworzy potomka
+ktory poprzez funkcje execl wlacza nam program 2b.x w ktorym znajduje sie
+kod z programu I. Sygnal jest wysylany wtedy do potomka poprzez
+proces macierzysty funkcja kill zaimplementowana w kodzie programu 2a.c.
+------------------------------------------------------------------------
+
+============
+III PROGRAM
+============
+
+Program wywoluje sie tak samo jak I oraz II, nalezy podac dwa argumenty:
+1 to nr sygnalu, 2 to nr opcji.
+
+------------------------------------------------------------------------
+Opcje programu pozostaly niezmienione.
+------------------------------------------------------------------------
+
+P1 - proces macierzysty
+P2 - pierwszy proces potomny procesu macierzystego
+Px - proces potomny procesu P2
+
+Program sklada sie z 3 plikow:
+------------------------------------------------------------------------
+3a.c: Tworzy potomka procesu macierzystego, ustawia potomka jako lidera
+    wywoluje dla potomka funkcje execl ktorej argumentem jest plik 3b.x
+    oraz wysyla do grupy tego procesu sygnal funkcja kill, ktorej 
+    argumentem jest sygnal podany przy wywolaniu funkcji.
+------------------------------------------------------------------------
+3b.c: Proces P2 tworzy potomkow funkcja fork po czym w kazdym z nich
+    wywoluje funkcja execl program 3c.x w ktorym znajduje sie
+    zmodyfikowany kod programu I. Proces P2 ignoruje sygnaly wysylane
+    przez proces P1, zaś procesy Px obsluguja sygnal podany na poczatku.
+    Proces P2 czeka na zakonczenie sie procesow Px, po czym zwraca
+    status zakonczenia procesow Px. 
+------------------------------------------------------------------------
+3c.c: Zawiera zmodyfikowany kod programu I. Modyfikacja polega na tym,
+    ze custom handler (opcja nr 3) wypisuje teraz pid_procesu
+    numer_sygnalu oraz nazwe_sygnalu.
+------------------------------------------------------------------------
+
+
+========================
+* Jak uruchomic programy:
+========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    a takze czyszczenia katalogu oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------
+
+========================================================================
+UWAGA! Nalezy pamietac ze program obsluguje 3 opcje, wprowadzenie
+liczby roznej od {1,2,3} skutkuje wypisaniem bledu
+========================================================================
+
+-> Aby skompilowac program 1 nalezy uzyc komendy:
+    make compile1
+   Po czym nalezy uruchomic program komenda ./1.x z 2 argumentami np.
+    ./1.x 3 3
+
+-> Aby skompilowac program 2 nalezy uzyc komendy:
+    make compile2
+   Po czym nalezy uruchomic program komenda ./2a.x z 2 argumentami np.
+    ./2a.x 3 3
+
+-> Aby skompilowac program 3 nalezy uzyc komendy:
+    make compile3
+   Po czym nalezy uruchomic program komenda ./3a.x z 2 argumentami np.
+    ./3a.x 3 3    
+
+-> Aby skompilowac wszystkie pliki do plikow .x (executable)
+   nalezy uzyc komendy:
+    make all
+
+-> Aby wyczyscic zawartosc katalogu (usunac wszystkie pliki executable)
+   nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

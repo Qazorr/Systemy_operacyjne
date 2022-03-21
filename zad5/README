@@ -1,0 +1,97 @@
+=========================================================================
+Autor: Kacper Piątkowski                          
+=========================================================================
+
+Zawartosc:
+============
+
+Katalog zad3 zawiera 3 pliki napisane w jezyku C,
+plik Makefile oraz plik README.
+
+========================
+Opis programów:
+
+==========
+PROGRAM 5A
+==========
+
+Program korzysta z potoku nazwanego, dzieki ktoremu przenosi
+ciagi znakow z pliku in.dat do pliku out.dat, dodatkowo wypisujac
+dane ktore pobral/zapisal do terminala.
+
+Potok dziala na zasadzie kolejki FIFO (First In First Out)
+latwo to zauwazyc na przykladzie wyzej wymienionego programu, gdyz
+mimo ze kolejne ciagi znakow sa wczytywane do potoku, to zapisywane
+sa w kolejnosci FIFO.
+
+
+==========
+PROGRAM 5B
+==========
+
+Program korzysta z kodu źródłowego programu pierwszego, z pliku
+producent.c oraz konsument.c, ktore po skompilowaniu uruchamiamy
+w oddzielnych dwoch terminalach. 
+Na poczatku zostaje stworzony potok nazwany z poziomu powloki.
+Nastepnie program dziala tak jak w podpunkcie A, z ta roznica
+ze dzieje sie to na dwoch oddzielnych terminalach.
+
+
+=============
+INFORMACJA
+=============
+
+Dlugosc pobieranego ciagu znakow z pliku wejsciowego jak i z potoku
+moze zostac zmieniona, aby to uczynic nalezy zmodyfikowac wartosci
+podane w #define na poczatku programu
+
+PROD_SPACE <- odpowiada za dlugosc ciagu znakowego pobieranego do potoku
+                z pliku wejsciowego
+
+KONS_SPACE <- odpowiada za dlugosc ciagu znakowanego pobieranego z potoku
+                do pliku wyjsciowego
+
+WRITE_ON_SCREEN <- odpowiada za wypisanie pobieranych/zapisywanych ciagow
+                    znakow, aby wylaczyc te opcje nalezy ustawic wartosc
+                    w/w zmiennej na "0" -> PAMIETAC O CUDZYSLOWIU
+
+
+WRITE_ON_SCREEN -> znajduje sie w glownym pliku 5a.c
+PROD_SPACE -> znajduje sie w pliku producent.c 
+KONS_SPACE -> znajduje sie w pliku konsument.c
+
+================================================
+
+
+=========================
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    a takze czyszczenia katalogu oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby skompilowac program nalezy wywolac komende:
+    make compile
+
+
+-> Aby uruchomic program nalezy wykonac komende 
+        make compile 
+    po czym wywolac program z trzema argumentami,
+    1 to plik wejsciowy, 2 wyjsciowy, 3 nazwa fifo, np.
+        ./5a.x in.dat out.dat potok_fifo
+
+-> Jesli chcemy wywolac program z testowymi argumentami podanymi
+    w Makefile nalezy wykonac komende
+        test_runA <- dla programu pierwszego
+        test_runB <- dla programu drugiego
+
+-> Aby wyczyscic zawartosc katalogu (usunac wszystkie pliki executable)
+   nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

@@ -1,0 +1,44 @@
+Pytanie: Ile procesow powstanie przy n-krotnym wywolaniu funkcji fork-exec jak wyzej i dlaczego?
+================================================================================================
+Odpowiedz: Tych procesow powstanie n, poniewaz:
+================================================================================================
+
+P(i) - i-ty proces
+---------------------------------------
+Przy pierwszym wywolaniu funkcji fork.
+---------------------------------------
+
+P1 - proces macierzysty stworzy jeden proces potomny P2.
+Ten potomek wykona funkcje execl, przy ktorej wykonywaniu skonczy swoje dzialanie.
+Zostanie wiec aktywny tylko proces macierzysty.
+
+Ilosc potomkow: 1 (P2)
+Ilosc aktywnych procesow: 1 (macierzysty P1)
+
+---------------------------------------
+Przy drugim wywolaniu funkcji fork
+---------------------------------------
+
+P1 stworzy kolejny proces potomny P3.
+Tak jak przy pierwszym wywolaniu funkcji fork,
+proces P3 wykonuje funkcje execl po czym konczy swoje dzialanie.
+Zostaje aktywny tylko proces macierzysty.
+
+Ilosc potomkow: 2 (P2, P3)
+Ilosc aktywnych procesow: 1 (macierzysty P1)
+
+---------------------------------------
+Przy trzecim wywolaniu funkcji fork
+---------------------------------------
+
+P1 stworzy kolejny proces potomny P4.
+Tak jak przy pierwszym oraz drugim wywolaniu funkcji fork,
+proces P4 wykonuje funkcje execl po czym konczy swoje dzialanie.
+Zostaje aktywny tylko proces macierzysty.
+
+Ilosc potomkow: 3 (P2, P3)
+Ilosc aktywnych procesow: 1 (macierzysty P1)
+
+================================================================================================
+Zauwazamy wiec ze przy n-tym wywolaniu funkcji fork-exec ilosc procesow potomnych
+bedzie wynosila n.

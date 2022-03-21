@@ -1,0 +1,85 @@
+=========================================================================
+Autor: Kacper Piątkowski                          
+=========================================================================
+
+Zawartosc:
+============
+
+Katalog zad4 zawiera 1 plik napisany w jezyku C,
+plik Makefileoraz plik README.
+
+========================
+Opis programu:
+
+Program korzysta z potoku przez ktory przesyla ciagi znakow z jednego
+pliku do drugiego. Najpierw z pliku wejsciowego do potoku zapisywana
+jest pewna dlugosc ciagu znakowego zdefiniowana na poczatku
+programu, a potem zostaje pobierana inna dlugosc ciagu z potoku
+do pliku wyjsciowego.
+Podczas wczytywania do potoku z pliku wejsciowego zostanie wypisany
+pobrany ciag znakowy do terminala, stanie sie tak rowniez przy
+zapisywaniu danych do pliku wyjsciowego z potoku.
+
+Potok dziala na zasadzie kolejki FIFO (First In First Out)
+latwo to zauwazyc na przykladzie wyzej wymienionego programu, gdyz
+mimo ze kolejne ciagi znakow sa wczytywane do potoku, to zapisywane
+sa w kolejnosci FIFO.
+
+=============
+INFORMACJA
+=============
+
+Dlugosc pobieranego ciagu znakow z pliku wejsciowego jak i z potoku
+moze zostac zmieniona, aby to uczynic nalezy zmodyfikowac wartosci
+podane w #define na poczatku programu
+
+PROD_SPACE <- odpowiada za dlugosc ciagu znakowego pobieranego do potoku
+                z pliku wejsciowego
+
+KONS_SPACE <- odpowiada za dlugosc ciagu znakowanego pobieranego z potoku
+                do pliku wyjsciowego
+
+WRITE_ON_SCREEN <- odpowiada za wypisanie pobieranych/zapisywanych ciagow
+                    znakow, aby wylaczyc te opcje nalezy ustawic wartosc
+                    w/w zmiennej na 0
+
+================================================
+
+
+========================
+* Jak uruchomic programy:
+========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    a takze czyszczenia katalogu oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby skompilowac program nalezy wywolac komende:
+    make compile
+
+==============================================
+Istnieja dwie mozliwosci uruchamiania programu
+==============================================
+
+-> Aby uruchomic program nalezy wykonac komende 
+        make compile 
+    po czym wywolac program z dwoma argumentami,
+    1 to plik wejsciowy, 2 wyjsciowy, np.
+        ./1.x in.dat out.dat
+    Po zakonczeniu uruchamiania ta metoda nalezy uzyc komendy:
+        diff -is in.dat out.dat
+
+-> Drugi sposob uruchomienia programu to wywolanie komendy
+    'make run' z dwoma argumentami A oraz B, np.
+        make run A=in.dat B=out.dat
+    pliki zostana automatycznie sprawdzone czy sa identyczne.
+
+-> Aby wyczyscic zawartosc katalogu (usunac wszystkie pliki executable)
+   nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

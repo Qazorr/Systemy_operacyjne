@@ -1,0 +1,95 @@
+=========================================================================
+* Autor: Kacper Piątkowski                          
+=========================================================================
+
+============
+! Zawartosc:
+============
+
+Katalog zad8 zawiera 4 pliki napisane w jezyku C, jeden plik naglowkowy .h,
+plik Makefile plik README.
+
+========================
+* Opis programów:
+========================
+
+Programy pokazuja implementacje problemu klient-serwer, który to opiera
+sie na uzyciu kolejek komunikatów.
+
+==============
+* serwer.c
+==============
+
+Na poczatku programu zostaje stworzona kolejka serwera, do ktorej
+beda trafiac komunikaty od klientów.
+
+Nastepnie zostaje wypisany komunikat o powstaniu serwera oraz
+wypisujacy jego wartosci.
+
+Nastepnie ropoczyna sie proces wymiany komunikatami miedzy procesem
+"serwer" a procesami "klient". Serwer odbiera komunikaty od klientow
+(dzialania arytmetyczne pokroju 1+2) po czym je oblicza oraz przesyla
+wynik do konsumenta za pomoca kolejki komunikatow.
+
+Podczas dzialania przez serwer wypisywane sa wiadomosci otrzymane
+przez klientow, ich PID oraz zwracana do nich wartosc.
+
+Program konczymy wywolujac SIGINT z klawiatury (CTRL-C)
+
+==============
+* klient.c
+==============
+
+Na poczatku programu stworzona zostaje nazwa klienta (/ + jego PID)
+po czym otwierana jest kolejka serwera (patrz wyzej) oraz utworzona
+zostaje kolejka klienta.
+
+Tak samo jak przy programie serwera wypisywany jest komunikat o
+wartosciach kolejki (tym razem klienta).
+
+Jesli chcemy samodzielnie sprawdzic dzialanie programu,
+uruchamiamy go zgodnie z zaleceniami (patrz nizej), po czym wpisujemy
+dzialania arytmetyczne w linii klienta (np 3 + 4) i czekamy na wynik.
+
+Jesli uruchomimy program z "testerem" (patrz nizej) procesy automatycznie
+beda wymieniac sie komunikatami miedzy soba.
+
+==============
+* tester.c
+==============
+
+Program ten ma dokladnie taka sama skladnie jak klient.c, z ta roznica
+ze nie oczekuje on na wprowadzenie przez uzytkownika dzialania arytmetycznego,
+lecz automatycznie losuje liczby oraz operacje, po czym przesyla je do
+serwera i oczekuje na odpowiedz.
+
+=========================
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    tworzenia biblioteki statycznej a takze czyszczenia katalogu
+    oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby uruchomic program z programem "tester" (patrz wyzej) uruchom:
+    make run_tester
+
+    *Aby zmienic ilosc wysylanych przez testera dzialan nalezy
+        * zmienic TEST_TIMES na poczatku programu tester.c
+
+-> Aby uruchomic program z samodzielna obsluga uruchom:
+    make run
+
+-> Jesli po uruchomieniu komendy serwer sie nie pojawi nalezy
+    uzyc komendy:
+        make fix
+
+-> Aby wyczyscic zawartosc katalogu nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

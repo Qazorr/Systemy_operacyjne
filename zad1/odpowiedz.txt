@@ -1,0 +1,28 @@
+Pytanie: Ile procesow powstanie przy n-krotnym wywolaniu funkcji fork i dlaczego?
+=================================================================================
+Odpowiedz: Tych procesow powstanie 2^n poniewaz przykladowo:
+=================================================================================
+P(i) - i-ty proces
+---------------------------------------
+Przy pierwszym wywolaniu funkcji fork
+---------------------------------------
+z P1 tworzy sie P2
+Liczba procesow: 2
+---------------------------------------
+Przy drugim wywolaniu funkcji fork
+---------------------------------------
+Z P1 tworzy sie P3
+Z P2 tworzy sie P4
+Liczba procesow: 4
+---------------------------------------
+Przy trzecim wywolaniu funkcji fork
+---------------------------------------
+Z P1 tworzy sie P5
+z P2 tworzy sie P6
+z P3 tworzy sie P7
+z P4 tworzy sie P8
+Liczba procesow: 8
+---------------------------------------
+Przy kazdym kolejnym wywolaniu funkcji fork kazdy proces bedzie sie 
+stawal macierzystym i bedzie tworzyl proces potomny
+Dlatego wlasnie tych procesow bedzie 2^n.

@@ -1,0 +1,70 @@
+=========================================================================
+* Autor: Kacper Piątkowski                          
+=========================================================================
+
+============
+! Zawartosc:
+============
+
+Katalog zad9 zawiera 1 plik napisany w jezyku C, plik Makefile plik README.
+
+========================
+* Opis programów:
+========================
+
+Programy pokazuja implementacje wzajemnego wykluczania wątków standardu POSIX
+z użyciem mutexów.
+
+==============
+* main.c
+==============
+
+Na poczatku programu wyswietla nam sie komunikat startowy, ktory
+zakonczy sie po wcisnieciu klawisza "Enter".
+
+Nastepnie na ekran zostanie wypisany adres mutexu stworzonego w programie,
+oraz ID kazdego z watków. Poniżej wszystkich ID zostanie wyswietlony
+licznik, który w pozniejszym czasie bedzie aktualizowany.
+Pod licznikiem beda znajdowaly sie sekcje prywatne i krytyczne
+watków.
+
+W sekcji prywatnej watek wyswietla numer sekcji prywatnej.
+
+W sekcji krytycznej watek wyswietla numer sekcji krytycznej
+oraz dodatkowo iteruje globalny licznik oraz wyswietla jego zaktualizowana
+wartość.
+
+Po zakonczeniu sie wszyskich sekcji krytycznych danego watku
+zostanie wypisany komunikat o zakonczeniu pracy watku.
+
+Po zakonczeniu pracy wszystkich watkow na ekranie pojawi sie komunikat
+koncowy zawierajacy estymowana wartosc licznika oraz informacje o sukcesie
+wykonania wykluczania.
+
+
+=========================
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszego programu,
+    a takze czyszczenia katalogu oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby uruchomic program z testowymi zmiennymi nalezy uzyc komendy:
+    * make test_run
+
+-> Aby skompilowac program nalezy uzyc komendy
+    * make
+    Po czym aby go uruchomic uzyc komendy 
+    * ./main.x S W
+    Gdzie S -> ilosc sekcji
+          W -> ilosc watkow
+
+-> Aby wyczyscic zawartosc katalogu nalezy uzyc komendy:
+    * make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    * make tar
+
+==========================================================================

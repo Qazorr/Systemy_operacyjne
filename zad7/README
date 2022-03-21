@@ -1,0 +1,147 @@
+=========================================================================
+* Autor: Kacper Piątkowski                          
+=========================================================================
+
+============
+! Zawartosc:
+============
+
+Katalog zad7 zawiera 5 plikow napisanych w jezyku C, dwa pliki naglowkowe .h,
+plik Makefile plik README oraz plik pseudo.txt zawierajacy odpowiedz na pytanie.
+
+========================
+* Opis programów:
+========================
+
+W programach zostal zaimplementowany problem producenta i konsumenta
+z uzyciem pamieci dzielonej oraz semaforow do synchronizacji procesow.
+
+==============
+* main.c
+==============
+
+Na poczatku programu tworzone są:
+    * semafor producenta
+    * semafor konsumenta
+    * pamiec dzielona
+Po czym zostaje wypisany komunikat informujacy uzytkownika o stanie poczatkowym
+semaforów oraz pamieci.
+Nastepnie proces macierzysty tworzy dwa procesy potomne, które kolejno uruchamiaja
+program _producent oraz _konsument.
+Proces macierzysty czeka na zakonczenie dwoch procesów potomnych po czym
+konczy swoje dzialanie.
+
+==============
+* _producent.c
+==============
+
+Na poczatku programu otwierane są wczesniej utworzone przez glowny program:
+    * semafor producenta
+    * semafor konsumenta
+    * pamiec dzielona
+Po czym wyswietlany jest komunikat o ich stanie.
+
+Kolejnym krokiem jest odwzorowanie w pamieci segmentu zawierajacego
+tablice dwuwymiarowa (bufor) oraz dwie liczby(wstaw, wyjmij), 
+ktore sluza jako indeksy do tablicy.
+
+-------------------------
+? Co dzieje się w petli?
+-------------------------
+
+Do stworzonej przez nas zmiennej "towar" (tablica znakowa) zostaja zapisane
+ciagi znakow pobierane z pliku (default: in.txt).
+
+Nastepnie na terminalu zostaja wypisane komunikaty o przeslaniu danego tekstu
+do pamieci dzielonej do indeksu x w tablicy bufor (patrz wyzej), po czym
+nastepuje przestawienie pozycji do wstawienia (iteracja) oraz wyczyszczenie
+tablicy towar, tak aby nie pozostaly w niej zadne smieci w pozniejszym etapie.
+
+Caly ten proces kontroluje semafor producenta, ktory nie pozwala procesowi
+nadpisac jeszcze nie przeczytanego przez konsumenta ciagu znakow.
+
+W dalszej kolejnosci tablica "towar" zostaje wyczyszczona, tak by w pozniejszym
+etapie nie znalazly sie w niej zadne smieci.
+
+Ostatnim krokiem jest podniesienie semafora konsumenta, po to by dac mu "znak",
+ze moze zaczac pobierac elementy z tablicy "bufor".
+
+!Wazne!:
+    Producent po zakonczeniu czytania z pliku (gdy skoncza sie w nim juz znaki)
+wysyla do tablicy bufor znak "\0", po czym konczy petle. Konsument po napotkaniu
+tego znaku takze zatrzyma swoje dzialanie.
+
+-------------------------
+
+Po zakonczeniu calego procesu przesylania przez producenta zamykamy wszystkie
+otwarte wczesniej deskryptory i konczymy proces.
+
+==============
+* _konsument.c
+==============
+
+Program konsument dziala tak samo jak program producent (patrz wyzej),
+z ta roznica ze:
+
+-> konsument pobiera ciagi znaków z tablicy bufor znajdujacej sie w pamieci
+    dzielonej, po czym zapisuje ja do pliku.
+
+-> cale dzialanie kontroluje semafor konsumenta, ktory na poczatku zostaje
+    ustawiony na 0, przez co czeka on do momentu az proces producent go
+    podniesie (zwiekszy wartosc semafora o 1)
+
+-> dzialanie konczy sie przy napotkaniu "\0" wyslanego przez producenta.
+
+-> na koncu zostaje podniesiony semafor producenta, aby dac znak,
+    ze kolejne miejsce w buforze jest "wolne" tzn. konsument pobral juz
+    z niego ciag znakow.
+
+===============================================
+
+==============
+! INFORMACJA !
+==============
+
+W przypadku gdy program zacznie dzialac w nieprzewidziany sposob
+mozna go zakonczyc wciskajac kombinacje klawiszy CTRL-C, co bedzie
+skutkowalo zakonczeniem programu oraz usunieciem semaforow oraz
+pamieci dzielonej.
+
+Wartosc SIZE w programie main powinna byc wieksza od wielkosci
+NELE znajdujacej sie w shared_mem.h
+
+================================================
+
+
+=========================
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    tworzenia biblioteki statycznej oraz dynamicznej, tworzenia
+    przykladowego pliku tekstowego a takze czyszczenia katalogu
+    oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby uruchomic program z biblioteka statyczna nalezy wywolac komende:
+    make run_static
+
+-> Aby uruchomic program z biblioteka dzielona (1 sposob) wywolac:
+    make run_shared1
+
+-> Aby uruchomic program z biblioteka dzielona (2 sposob) wywolac:
+    make run_shared2
+
+* -> jesli chcemy zmienic argumenty przy wywolaniu programu,
+    * np zmienic plik wejsciowy nalezy zmienic wartosc IN w pliku Makefile   
+
+-> Aby wyczyscic zawartosc katalogu nalezy uzyc komendy:
+    make clean
+
+!UWAGA! clean usuwa takze pliki tesktowe oraz stworzone biblioteki 
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

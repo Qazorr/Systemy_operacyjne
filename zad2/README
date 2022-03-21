@@ -1,0 +1,41 @@
+=========================================================================
+Autor: Kacper Piątkowski                          
+=========================================================================
+
+Zawartosc:
+============
+
+Katalog zad2 zawiera 2 pliki napisane w jezyku C, plik Makefile, README
+oraz plik odpowiedz.txt.
+
+------------------------------------------------------------------------
+
+W pliku odpowiedz.txt znajduje sie odpowiedz na pytanie zadane pod
+trescia zadania 2.
+
+------------------------------------------------------------------------
+
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji, linkowania
+    i uruchamiania powyzszego programu, a takze czyszczenia katalogu
+    oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------
+
+-> Aby uruchomic program nalezy uzyc komendy:
+    make run
+
+-> Aby skompilowac wszystkie pliki do plikow .x (executable)
+   nalezy uzyc komendy:
+    make all
+
+-> Aby wyczyscic zawartosc katalogu (usunac wszystkie pliki executable)
+   nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================

@@ -1,0 +1,31 @@
+Aby rozszerzyć to rozwiazanie do kilku producentów oraz kilku konsumentów
+stworzymy kolejne 2 semafory:
+    *SYNC1 -> bedzie semaforem binarnym (inicjalizujemy na 1)
+    *SYNC2 -> bedzie semaforem binarnym (inicjalizujemy na 1)
+Bedzie on kontrolowal to, by tylko jeden producent oraz 
+tylko jeden konsument w danej chwili wykonywali operacje.
+
+Posiadamy wciaz dwa semafory:
+    *PROD -> odpowiada za producentow (inicjalizacja na NBUF)
+    *KONS -> odpowiada za konsumentow (inicjalizacja na 0)
+
+!Proces producent:
+    while(1)
+        P(PROD)
+        P(SYNC1)
+            wykonujemy operacje:
+                *czytamy z pliku
+                *podajemy towar do pamieci dzielonej
+        V(SYNC1)
+        V(KONS)
+
+
+!Proces konsument:
+    while(1)
+        P(KONS)
+        P(SYNC2)
+            wykonujemy operacje:
+                *pobieramy z pamieci
+                *zapisujemy do pliku
+        V(SYNC2)
+        V(PROD)

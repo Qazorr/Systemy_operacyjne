@@ -1,0 +1,108 @@
+=========================================================================
+Autor: Kacper Piątkowski                          
+=========================================================================
+
+Zawartosc:
+============
+
+Katalog zad6 zawiera 3 pliki napisane w jezyku C, plik naglowkowy .h,
+plik Makefile oraz plik README.
+
+========================
+Opis programów:
+========================
+
+W programach zostalo zaimplementowane wzajemne wykluczanie sie procesów
+polegajace na synchronizowaniu procesów wymagających dostepu
+do zasobu dzielonego.
+
+==============
+powielacz.c
+==============
+
+W programie znajduje sie kod odpowiedzialny za utworzenie semafora,
+zainicjalizowanie jego wartosci, stworzenie pliku numer.txt oraz
+wpisaniu do niego wartosci (defaultowo 0). Nastepnie program
+tworzy "n" potomkow oraz wywoluje w nich execlem program wykluczajacy.c
+(wartosc "n" jest podawana jako argument wywolania programu powielacz.c)
+Na koncu program wypisuje podane argumeny oraz wartosc z pliku numer.txt
+(o wartosci w pliku numer.txt mowie w omawianiu wykluczajacy.c).
+
+==============
+wykluczajacy.c
+==============
+
+Program wykluczajacy.c wywolywany przez execl korzysta z wczesniej
+utworzonego semafora i sekcji krytycznych procesu.
+Na samym starcie zostaja wypisane PID potomkow oraz wartosci semafora
+przed wejsciem do strefy krytycznej.
+
+W dalszej czesci, po opuszczeniu semafora P(S), proces wchodzi w strefe krytyczna.
+
+W strefie krytycznej czyta wartosc z pliku numer.txt, nastepnie ją inkrementuje,
+po czym zapisuje ja ponownie do pliku numer.txt nadpisujac wczesniejsza wartosc.
+Po czym podnosi semafor V(S) (zwalniajac niejako miejsce na kolejny proces)
+oraz wypisuje komunikat o opuszczeniu strefy krytycznej, wartosci semafora oraz PID.
+Taka sekwencja wykonuje sie "x" razy gdzie "x" jest naszym argumentem nr 3 podawanym
+przy wywolaniu programu.
+
+==============
+funkcje.c
+==============
+
+W pliku znajduja sie funkcje obslugujace semafor wraz z obsluga bledow.
+
+sem_stworz -> tworzy nowy semafor
+
+sem_otworz -> otwiera wczesniej stworzony semafor
+
+sem_pobierz_wartosc -> pobiera wartosc semafora do zmiennej &sval
+    bedacej drugim argumentem wywolania funkcji
+
+V -> podnosi semafor
+
+P -> opuszcza semafor
+
+sem_zamknij -> zamyka wczesniej otwarty semafor
+
+sem_usun -> usuwa wczesniej stworzony semafor
+
+==============
+INFORMACJA
+==============
+
+W przypadku gdy program zacznie dzialac w nieprzewidziany sposob
+mozna go zakonczyc wciskajac kombinacje klawiszy CTRL-C, co bedzie
+skutkowalo zakonczeniem programu oraz usunieciem semafora.
+
+================================================
+
+
+=========================
+* Jak uruchomic programy:
+=========================
+
+    Katalog zawiera program Makefile do kompilacji powyzszych programow,
+    a takze czyszczenia katalogu oraz jego kompresji do pliku .tar
+
+------------------------------------------------------------------------    
+
+-> Aby skompilowac program nalezy wywolac komende:
+    make compile
+
+-> Aby uruchomic program z przykladowymi argumentami nalezy wywolac:
+    make test_run
+
+-> Po skompilowaniu (patrz wyzej) mozemy uruchomic program z wlasnymi
+    argumentami. Przykladowe uruchomienie ponizej.
+        ./powielacz.x wykluczajacy.x 7 3
+        7 -> ilosc procesów, 3 -> ilosc sekcji
+
+-> Aby wyczyscic zawartosc katalogu (usunac wszystkie pliki executable)
+   nalezy uzyc komendy:
+    make clean
+
+-> Aby skompresowac wszystkie pliki nalezy wywolac komende:
+    make tar
+
+==========================================================================
